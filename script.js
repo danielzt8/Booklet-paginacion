@@ -95,16 +95,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const remainder = pageCount % 4;
         const pagesToAdd = remainder === 0 ? 0 : 4 - remainder;
 
-        if (pagesToAdd > 0) {
-            // Añadir páginas en blanco del mismo tamaño que la primera página
-            const firstPage = srcDoc.getPages()[0];
-            const { width, height } = firstPage.getSize();
-            for (let i = 0; i < pagesToAdd; i++) {
-                srcDoc.addPage([width, height]);
-            }
-        }
-
-        const normalizedPageCount = srcDoc.getPageCount();
+        // Calculamos el total virtual de páginas incluyendo las blancas
+        const normalizedPageCount = pageCount + pagesToAdd;
 
         // Crear documento nuevo
         const imposedDoc = await PDFLib.PDFDocument.create();
@@ -166,12 +158,32 @@ document.addEventListener('DOMContentLoaded', () => {
         downloadLink.className = 'mt-4 inline-flex items-center justify-center w-full px-4 py-3 bg-emerald-500 text-white font-bold rounded-xl shadow-lg hover:bg-emerald-600 transition transform hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500';
 
         // Limpiar mensaje anterior y mostrar éxito
-        updateStatus(`
+        let successMessage = `
             <div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 mb-3">
                 <p class="text-emerald-700 font-medium">¡Proceso completado con éxito!</p>
                 <p class="text-emerald-600 text-sm">${normalizedPageCount} páginas procesadas en ${totalSheets} hojas.</p>
             </div>
-        `, 'success');
+        `;
+
+        if (pagesToAdd > 0) {
+            successMessage += `
+                <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-3 text-left">
+                    <div class="flex items-center mb-2">
+                        <svg class="w-5 h-5 text-yellow-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        <p class="text-yellow-800 font-medium">Recomendación</p>
+                    </div>
+                    <p class="text-yellow-700 text-sm">
+                        Tu documento tiene <strong>${pageCount} páginas</strong> (faltan ${pagesToAdd} para completar cuadernillo).
+                        Se han añadido espacios en blanco al final.
+                    </p>
+                    <p class="text-yellow-700 text-sm mt-2">
+                        <strong>Consejo:</strong> Es recomendable completar las páginas faltantes en tu diseño original (ej. notas, publicidad) para evitar hojas vacías.
+                    </p>
+                </div>
+            `;
+        }
+
+        updateStatus(successMessage, 'success');
 
         messageArea.appendChild(downloadLink);
 
@@ -180,40 +192,33 @@ document.addEventListener('DOMContentLoaded', () => {
 
     async function addImposedPage(targetDoc, sourceDoc, leftIdx, rightIdx, pdfWidth, pdfHeight, pageW, marginPt, addMarks = false) {
         const page = targetDoc.addPage([pdfWidth, pdfHeight]);
-
-        // Copiar las dos páginas específicas
-        const [leftPage] = await targetDoc.embedPages([sourceDoc.getPages()[leftIdx]]);
-        const [rightPage] = await targetDoc.embedPages([sourceDoc.getPages()[rightIdx]]);
-
-        // Calcular posiciones con margen
-        // El margen se añade a todos los lados del pliego final?
-        // Normalmente el bleed es alrededor de CADA página si fuera corte individual,
-        // pero en booklet (saddle stitch) el bleed importante es EXTERIOR.
-        // Aquí simplificaremos poniendo el pliego centrado en la hoja grande.
-        // X: marginPt (izquierda) -> P1 -> P2 -> marginPt (derecha)
-        // Y: marginPt (abajo) -> P -> marginPt (arriba)
-
+        const srcPageCount = sourceDoc.getPageCount();
         const contentHeight = pdfHeight - (marginPt * 2);
-        // Nota: pdfHeight ya incluye el margen * 2 según mi calculo anterior
 
-        // Dibujar página izquierda
-        page.drawPage(leftPage, {
-            x: marginPt,
-            y: marginPt,
-            width: pageW,
-            height: contentHeight
-        });
+        // Copiar y dibujar página izquierda si existe (está dentro del rango original)
+        if (leftIdx < srcPageCount) {
+            const [leftPage] = await targetDoc.embedPages([sourceDoc.getPages()[leftIdx]]);
+            page.drawPage(leftPage, {
+                x: marginPt,
+                y: marginPt,
+                width: pageW,
+                height: contentHeight
+            });
+        }
 
-        // Dibujar página derecha
-        page.drawPage(rightPage, {
-            x: marginPt + pageW,
-            y: marginPt,
-            width: pageW,
-            height: contentHeight
-        });
+        // Copiar y dibujar página derecha si existe
+        if (rightIdx < srcPageCount) {
+            const [rightPage] = await targetDoc.embedPages([sourceDoc.getPages()[rightIdx]]);
+            page.drawPage(rightPage, {
+                x: marginPt + pageW,
+                y: marginPt,
+                width: pageW,
+                height: contentHeight
+            });
+        }
 
         if (addMarks) {
-            drawCropMarks(page, pdfWidth, pdfHeight, pageW, marginPt); // pageW es el ancho de una sola pagina original
+            drawCropMarks(page, pdfWidth, pdfHeight, pageW, marginPt);
         }
     }
 
