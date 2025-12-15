@@ -54,6 +54,25 @@
                         class="text-slate-500 hover:text-primary font-medium transition focus:outline-none">Cómo
                         funciona</button>
                 </div>
+                <!-- Mobile menu button -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-btn" class="text-slate-500 hover:text-primary focus:outline-none p-2">
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-slate-200">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="#features"
+                    class="block px-3 py-2 rounded-md text-base font-medium text-slate-700 hover:text-primary hover:bg-slate-50">Características</a>
+                <button id="mobile-open-modal-btn"
+                    class="w-full text-left block px-3 py-2 rounded-md text-base font-medium text-slate-700 hover:text-primary hover:bg-slate-50 focus:outline-none">Cómo
+                    funciona</button>
             </div>
         </div>
     </nav>
@@ -64,7 +83,7 @@
             <div class="lg:grid lg:grid-cols-12 lg:gap-8 items-center">
 
                 <!-- Text Content -->
-                <div class="sm:text-center md:max-w-2xl md:mx-auto lg:col-span-6 lg:text-left">
+                <div class="sm:text-center md:max-w-2xl md:mx-auto lg:col-span-6 lg:text-left relative z-10">
                     <h1 class="text-4xl tracking-tight font-extrabold text-slate-900 sm:text-5xl md:text-6xl">
                         <span class="block">Tus PDFs listos para</span>
                         <span class="block text-primary">imprimir en minutos</span>
@@ -158,7 +177,7 @@
 
                                 <div class="flex items-center justify-between">
                                     <span class="text-slate-700 font-medium">Margen / Bleed (mm):</span>
-                                    <input type="number" id="margin-mm" value="0" min="0" step="1"
+                                    <input type="number" id="margin-mm" value="0" min="0" max="10" step="1"
                                         class="w-20 rounded-md border-slate-300 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 text-center py-1 px-2 border">
                                 </div>
                             </div>

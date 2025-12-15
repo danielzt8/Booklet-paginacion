@@ -7,6 +7,25 @@ document.addEventListener('DOMContentLoaded', () => {
     const backdrop = document.getElementById('modal-backdrop');
     const heroLearnMoreBtn = document.getElementById('hero-learn-more');
 
+    // Mobile Menu Logic
+    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const mobileOpenModalBtn = document.getElementById('mobile-open-modal-btn');
+
+    if (mobileMenuBtn) {
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+    }
+
+    if (mobileOpenModalBtn) {
+        mobileOpenModalBtn.addEventListener('click', () => {
+            toggleModal();
+            // Close mobile menu on click
+            mobileMenu.classList.add('hidden');
+        });
+    }
+
     function toggleModal() {
         modal.classList.toggle('hidden');
     }
@@ -94,7 +113,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const { width: originalWidth, height: originalHeight } = srcDoc.getPages()[0].getSize();
 
         // 3. Imposition
-        const marginMM = parseFloat(document.getElementById('margin-mm').value) || 0;
+        let marginMM = parseFloat(document.getElementById('margin-mm').value) || 0;
+        // Limit margin to max 10mm as requested
+        if (marginMM > 10) marginMM = 10;
+        if (marginMM < 0) marginMM = 0;
+
         const marginPoints = marginMM * 2.83465; // 1 mm = 2.83465 pt
 
         // El documento de salida tendrá el doble de ancho + margenes
