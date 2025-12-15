@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generador de Booklet PDF</title>
+    <!-- Cargar pdf-lib -->
+    <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>Generador de Booklet (Imposición)</h1>
+            <p>Sube tu PDF para ordenarlo automáticamente en formato revista (cuadernillo).</p>
+        </header>
+
+        <main>
+            <div class="upload-section">
+                <label for="pdf-file" class="file-label">
+                    <span>Seleccionar archivo PDF</span>
+                    <input type="file" id="pdf-file" accept=".pdf">
+                </label>
+                <div id="file-name" class="file-name">Ningún archivo seleccionado</div>
+
+                <div class="options-section" style="margin-top: 1rem; text-align: left;">
+                    <label
+                        style="display: flex; align-items: center; justify-content: center; cursor: pointer; margin-bottom: 0.5rem;">
+                        <input type="checkbox" id="add-crop-marks"
+                            style="display: inline-block; width: auto; margin-right: 8px;">
+                        <span>Añadir guías de corte y doblez</span>
+                    </label>
+                    <label style="display: flex; align-items: center; cursor: pointer;">
+                        <span style="margin-right: 8px;">Margen / Bleed (mm):</span>
+                        <input type="number" id="margin-mm" value="0" min="0" step="1"
+                            style="width: 60px; padding: 4px;">
+                    </label>
+                </div>
+            </div>
+
+            <button id="process-btn" disabled>Procesar PDF</button>
+
+            <div id="message-area" class="message-area"></div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
