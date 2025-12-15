@@ -38,12 +38,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function updateStatus(message, type) {
         messageArea.innerHTML = message;
-        messageArea.className = 'message-area';
+        // Reset classes
+        messageArea.className = 'message-area text-center text-sm space-y-2 mt-4';
+
         if (type === 'error') {
-            messageArea.classList.add('message-error');
-        } else if (type === 'success') {
-            messageArea.classList.add('message-success');
+            messageArea.innerHTML = `<div class="text-red-500 font-medium bg-red-50 p-3 rounded-lg border border-red-100">${message}</div>`;
         }
+        // Success case is now fully handled by the caller passing detailed HTML, so we just render it.
     }
 
     async function processPDF(file) {
@@ -116,10 +117,20 @@ document.addEventListener('DOMContentLoaded', () => {
         const downloadLink = document.createElement('a');
         downloadLink.href = url;
         downloadLink.download = `booklet_${file.name}`;
-        downloadLink.textContent = 'Descargar PDF Impuesto';
-        downloadLink.className = 'download-link';
+        downloadLink.innerHTML = `
+            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+            Descargar Booklet PDF
+        `;
+        downloadLink.className = 'mt-4 inline-flex items-center justify-center w-full px-4 py-3 bg-emerald-500 text-white font-bold rounded-xl shadow-lg hover:bg-emerald-600 transition transform hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500';
 
-        updateStatus(`¡Proceso completado! (${normalizedPageCount} páginas procesadas en ${totalSheets} hojas)<br>`, 'success');
+        // Limpiar mensaje anterior y mostrar éxito
+        updateStatus(`
+            <div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 mb-3">
+                <p class="text-emerald-700 font-medium">¡Proceso completado con éxito!</p>
+                <p class="text-emerald-600 text-sm">${normalizedPageCount} páginas procesadas en ${totalSheets} hojas.</p>
+            </div>
+        `, 'success');
+
         messageArea.appendChild(downloadLink);
 
         processBtn.disabled = false;

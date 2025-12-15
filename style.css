@@ -1,132 +1,39 @@
-:root {
-    --primary-color: #4a90e2;
-    --primary-hover: #357abd;
-    --bg-color: #f5f7fa;
-    --text-color: #333;
-    --card-bg: #fff;
-    --border-radius: 8px;
-}
+/* Main styles moved to Tailwind CSS in index.html */
 
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: var(--bg-color);
-    color: var(--text-color);
-    margin: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-}
-
-.container {
-    background-color: var(--card-bg);
-    padding: 2rem;
-    border-radius: var(--border-radius);
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    width: 90%;
-    max-width: 500px;
-    text-align: center;
-}
-
-header h1 {
-    margin-top: 0;
-    color: var(--primary-color);
-    font-size: 1.8rem;
-}
-
-header p {
-    color: #666;
-    margin-bottom: 2rem;
-}
-
-.upload-section {
-    margin-bottom: 1.5rem;
-    border: 2px dashed #ccc;
-    padding: 2rem;
-    border-radius: var(--border-radius);
-    transition: border-color 0.3s;
-}
-
-.upload-section:hover {
-    border-color: var(--primary-color);
-}
-
-.file-label {
-    cursor: pointer;
-    display: inline-block;
-    padding: 10px 20px;
-    background-color: #e1e1e1;
-    border-radius: 4px;
-    font-weight: bold;
-    transition: background 0.3s;
-}
-
-.file-label:hover {
-    background-color: #d1d1d1;
-}
-
-input[type="file"] {
-    display: none;
-}
-
-.file-name {
-    margin-top: 1rem;
-    font-size: 0.9rem;
-    color: #555;
-    word-break: break-all;
-}
-
-button {
-    background-color: var(--primary-color);
-    color: white;
-    border: none;
-    padding: 12px 24px;
-    font-size: 1rem;
-    border-radius: var(--border-radius);
-    cursor: pointer;
-    transition: background-color 0.3s, transform 0.1s;
-    width: 100%;
-    font-weight: bold;
-}
-
-button:hover:not(:disabled) {
-    background-color: var(--primary-hover);
-}
-
-button:active:not(:disabled) {
-    transform: scale(0.98);
-}
-
-button:disabled {
-    background-color: #ccc;
-    cursor: not-allowed;
-}
-
+/* Helper styles for dynamic elements created by JS */
 .message-area {
     margin-top: 1.5rem;
     min-height: 20px;
-    font-size: 0.95rem;
 }
 
 .message-success {
-    color: #28a745;
+    color: #10B981;
+    /* Emerald 500 */
+    font-weight: 500;
 }
 
 .message-error {
-    color: #dc3545;
+    color: #EF4444;
+    /* Red 500 */
+    font-weight: 500;
 }
 
+/* Update download link to look like a button or secondary link */
 .download-link {
     display: inline-block;
     margin-top: 1rem;
-    color: var(--primary-color);
+    color: #4F46E5;
+    /* Indigo 600 */
     text-decoration: none;
-    font-weight: bold;
-    border: 1px solid var(--primary-color);
-    padding: 8px 16px;
-    border-radius: 4px;
+    font-weight: 600;
+    border: 1px solid #4F46E5;
+    padding: 10px 20px;
+    border-radius: 0.75rem;
+    /* rounded-xl */
+    transition: all 0.2s;
 }
 
 .download-link:hover {
-    background-color: rgba(74, 144, 226, 0.1);
+    background-color: #EEF2FF;
+    /* Indigo 50 */
 }

@@ -4,49 +4,261 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Generador de Booklet PDF</title>
-    <!-- Cargar pdf-lib -->
+    <title>BookletPro - Generador de Revistas PDF</title>
+
+    <!-- Dependencies -->
     <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
-    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#4F46E5', // Indigo 600
+                        secondary: '#10B981', // Emerald 500
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts: Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
 </head>
 
-<body>
-    <div class="container">
-        <header>
-            <h1>Generador de Booklet (Imposición)</h1>
-            <p>Sube tu PDF para ordenarlo automáticamente en formato revista (cuadernillo).</p>
-        </header>
+<body class="bg-slate-50 text-slate-900">
 
-        <main>
-            <div class="upload-section">
-                <label for="pdf-file" class="file-label">
-                    <span>Seleccionar archivo PDF</span>
-                    <input type="file" id="pdf-file" accept=".pdf">
-                </label>
-                <div id="file-name" class="file-name">Ningún archivo seleccionado</div>
-
-                <div class="options-section" style="margin-top: 1rem; text-align: left;">
-                    <label
-                        style="display: flex; align-items: center; justify-content: center; cursor: pointer; margin-bottom: 0.5rem;">
-                        <input type="checkbox" id="add-crop-marks"
-                            style="display: inline-block; width: auto; margin-right: 8px;">
-                        <span>Añadir guías de corte y doblez</span>
-                    </label>
-                    <label style="display: flex; align-items: center; cursor: pointer;">
-                        <span style="margin-right: 8px;">Margen / Bleed (mm):</span>
-                        <input type="number" id="margin-mm" value="0" min="0" step="1"
-                            style="width: 60px; padding: 4px;">
-                    </label>
+    <!-- Navbar -->
+    <nav class="bg-white border-b border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <svg class="h-8 w-8 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                    </svg>
+                    <span class="ml-2 text-xl font-bold tracking-tight text-slate-800">BookletPro</span>
+                </div>
+                <!-- Optional Nav Links -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#features"
+                        class="text-slate-500 hover:text-primary font-medium transition">Características</a>
+                    <a href="#how-it-works" class="text-slate-500 hover:text-primary font-medium transition">Cómo
+                        funciona</a>
                 </div>
             </div>
+        </div>
+    </nav>
 
-            <button id="process-btn" disabled>Procesar PDF</button>
+    <!-- Hero Section with Tool -->
+    <div class="relative overflow-hidden bg-white pt-16 pb-32">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="lg:grid lg:grid-cols-12 lg:gap-8 items-center">
 
-            <div id="message-area" class="message-area"></div>
-        </main>
+                <!-- Text Content -->
+                <div class="sm:text-center md:max-w-2xl md:mx-auto lg:col-span-6 lg:text-left">
+                    <h1 class="text-4xl tracking-tight font-extrabold text-slate-900 sm:text-5xl md:text-6xl">
+                        <span class="block">Tus PDFs listos para</span>
+                        <span class="block text-primary">imprimir en minutos</span>
+                    </h1>
+                    <p
+                        class="mt-3 text-base text-slate-500 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
+                        Ordena automáticamente las páginas de tu documento para crear revistas y folletos profesionales.
+                        Procesamiento 100% privado en tu navegador.
+                    </p>
+                    <div class="mt-8 sm:max-w-lg sm:mx-auto sm:text-center lg:text-left lg:mx-0">
+                        <p class="text-sm font-medium text-slate-500 uppercase tracking-wider mb-2">Características
+                            destacadas</p>
+                        <ul class="space-y-2">
+                            <li class="flex items-center text-slate-700">
+                                <svg class="h-5 w-5 text-green-500 mr-2" fill="none" viewBox="0 0 24 24"
+                                    stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M5 13l4 4L19 7" />
+                                </svg>
+                                Imposición automática (2 páginas por hoja)
+                            </li>
+                            <li class="flex items-center text-slate-700">
+                                <svg class="h-5 w-5 text-green-500 mr-2" fill="none" viewBox="0 0 24 24"
+                                    stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M5 13l4 4L19 7" />
+                                </svg>
+                                Guías de corte y sangrado personalizable
+                            </li>
+                            <li class="flex items-center text-slate-700">
+                                <svg class="h-5 w-5 text-green-500 mr-2" fill="none" viewBox="0 0 24 24"
+                                    stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M5 13l4 4L19 7" />
+                                </svg>
+                                Sin límite de tamaño ni marca de agua
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- The Tool Card -->
+                <div class="mt-12 lg:mt-0 lg:col-span-6">
+                    <div
+                        class="bg-white sm:max-w-md sm:w-full sm:mx-auto sms:overflow-hidden rounded-2xl shadow-xl border border-slate-100 p-8">
+                        <div class="text-center mb-8">
+                            <h2 class="text-2xl font-bold text-slate-900">Empezar ahora</h2>
+                            <p class="text-slate-500">Sube tu archivo PDF para procesarlo</p>
+                        </div>
+
+                        <!-- Upload Area -->
+                        <div class="space-y-6">
+                            <div class="relative group">
+                                <label for="pdf-file"
+                                    class="flex flex-col items-center justify-center w-full h-32 border-2 border-slate-300 border-dashed rounded-xl cursor-pointer bg-slate-50 hover:bg-slate-100 transition duration-300 group-hover:border-primary">
+                                    <div class="flex flex-col items-center justify-center pt-5 pb-6">
+                                        <svg class="w-10 h-10 mb-3 text-slate-400 group-hover:text-primary transition"
+                                            fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12">
+                                            </path>
+                                        </svg>
+                                        <p class="mb-2 text-sm text-slate-500"><span
+                                                class="font-semibold text-primary">Haz clic para subir</span> o arrastra
+                                        </p>
+                                        <p class="text-xs text-slate-400">Archivos PDF (Max 100MB)</p>
+                                    </div>
+                                    <input id="pdf-file" type="file" class="hidden" accept=".pdf" />
+                                </label>
+                            </div>
+
+                            <div id="file-name" class="text-center text-sm font-medium text-slate-700 min-h-[20px]">
+                                <!-- Filename appears here -->
+                            </div>
+
+                            <!-- Options -->
+                            <div class="bg-slate-50 rounded-lg p-4 space-y-4">
+                                <label class="flex items-center space-x-3 cursor-pointer">
+                                    <input type="checkbox" id="add-crop-marks"
+                                        class="form-checkbox h-5 w-5 text-primary rounded border-slate-300 focus:ring-primary transition duration-150 ease-in-out">
+                                    <span class="text-slate-700 font-medium">Añadir guías de corte y doblez</span>
+                                </label>
+
+                                <div class="flex items-center justify-between">
+                                    <span class="text-slate-700 font-medium">Margen / Bleed (mm):</span>
+                                    <input type="number" id="margin-mm" value="0" min="0" step="1"
+                                        class="w-20 rounded-md border-slate-300 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 text-center py-1 px-2 border">
+                                </div>
+                            </div>
+
+                            <button id="process-btn" disabled
+                                class="w-full flex justify-center py-3 px-4 border border-transparent rounded-xl shadow-sm text-sm font-bold text-white bg-primary hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary disabled:opacity-50 disabled:cursor-not-allowed transition transform hover:-translate-y-0.5 active:translate-y-0">
+                                Procesar PDF
+                            </button>
+
+                            <!-- Process Messages -->
+                            <div id="message-area" class="text-center text-sm space-y-2"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
+    <!-- Features Section -->
+    <div id="features" class="py-16 bg-slate-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <h2 class="text-base font-semibold text-primary tracking-wide uppercase">Potencia tu Impresión</h2>
+                <p class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-slate-900 sm:text-4xl">
+                    Todo lo que necesitas para booklets
+                </p>
+                <p class="mt-4 max-w-2xl text-xl text-slate-500 lg:mx-auto">
+                    Simplificamos el proceso de pre-prensa para que tú solo tengas que imprimir y doblar.
+                </p>
+            </div>
+
+            <div class="mt-14">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <!-- Feature 1 -->
+                    <div
+                        class="bg-white p-6 rounded-xl shadow-sm border border-slate-100 text-center hover:shadow-md transition">
+                        <div class="inline-flex items-center justify-center p-3 bg-indigo-100 rounded-full mb-4">
+                            <svg class="h-6 w-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                            </svg>
+                        </div>
+                        <h3 class="text-lg font-bold text-slate-900 mb-2">Imposición Inteligente</h3>
+                        <p class="text-slate-500">Ordena las páginas automáticamente para encuadernación tipo grapa
+                            (Saddle Stitch). Nosotros hacemos las matemáticas.</p>
+                    </div>
+
+                    <!-- Feature 2 -->
+                    <div
+                        class="bg-white p-6 rounded-xl shadow-sm border border-slate-100 text-center hover:shadow-md transition">
+                        <div class="inline-flex items-center justify-center p-3 bg-emerald-100 rounded-full mb-4">
+                            <svg class="h-6 w-6 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M刀8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            </svg> <!-- Icono genérico -->
+                            <svg class="h-6 w-6 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                            </svg>
+                        </div>
+                        <h3 class="text-lg font-bold text-slate-900 mb-2">Acabado Profesional</h3>
+                        <p class="text-slate-500">Añade guías de corte y sangrado (bleed) con precisión milimétrica para
+                            un corte perfecto en guillotina.</p>
+                    </div>
+
+                    <!-- Feature 3 -->
+                    <div
+                        class="bg-white p-6 rounded-xl shadow-sm border border-slate-100 text-center hover:shadow-md transition">
+                        <div class="inline-flex items-center justify-center p-3 bg-blue-100 rounded-full mb-4">
+                            <svg class="h-6 w-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                            </svg>
+                        </div>
+                        <h3 class="text-lg font-bold text-slate-900 mb-2">Privacidad Total</h3>
+                        <p class="text-slate-500">Tu archivo nunca sale de tu dispositivo. Todo el procesamiento se
+                            realiza localmente en tu navegador.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-200">
+        <div class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8 flex justify-between items-center">
+            <p class="text-slate-400 text-sm">© 2025 BookletPro. Todos los derechos reservados.</p>
+            <div class="flex space-x-6">
+                <a href="#" class="text-slate-400 hover:text-slate-500">
+                    <span class="sr-only">GitHub</span>
+                    <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                        <path fill-rule="evenodd"
+                            d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"
+                            clip-rule="evenodd" />
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Script Logic -->
     <script src="script.js"></script>
+    <script>
+        // Inline styles for dynamic updating of download link to match Tailwind if needed, otherwise script.js does a basic job.
+        // We might want to update script.js to style the download link, but it adds a class 'download-link'.
+        // Let's add that class to the header <style> or update script.js.
+        // For now, let's update script.js to output a nice tailwind button class.
+    </script>
 </body>
 
 </html>
