@@ -1,4 +1,23 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // --- Modal Logic ---
+    const modal = document.getElementById('info-modal');
+    const openBtn = document.getElementById('open-modal-btn');
+    const closeBtn = document.getElementById('close-modal-btn');
+    const cancelBtn = document.getElementById('cancel-modal-btn');
+    const backdrop = document.getElementById('modal-backdrop');
+    const heroLearnMoreBtn = document.getElementById('hero-learn-more');
+
+    function toggleModal() {
+        modal.classList.toggle('hidden');
+    }
+
+    if (openBtn) openBtn.addEventListener('click', toggleModal);
+    if (heroLearnMoreBtn) heroLearnMoreBtn.addEventListener('click', toggleModal);
+    if (closeBtn) closeBtn.addEventListener('click', toggleModal);
+    if (cancelBtn) cancelBtn.addEventListener('click', toggleModal);
+    if (backdrop) backdrop.addEventListener('click', toggleModal);
+
+    // --- PDF Logic ---
     const fileInput = document.getElementById('pdf-file');
     const processBtn = document.getElementById('process-btn');
     const messageArea = document.getElementById('message-area');

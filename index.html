@@ -50,8 +50,9 @@
                 <div class="hidden md:flex items-center space-x-8">
                     <a href="#features"
                         class="text-slate-500 hover:text-primary font-medium transition">Características</a>
-                    <a href="#how-it-works" class="text-slate-500 hover:text-primary font-medium transition">Cómo
-                        funciona</a>
+                    <button id="open-modal-btn"
+                        class="text-slate-500 hover:text-primary font-medium transition focus:outline-none">Cómo
+                        funciona</button>
                 </div>
             </div>
         </div>
@@ -102,6 +103,13 @@
                                 Sin límite de tamaño ni marca de agua
                             </li>
                         </ul>
+                        <div class="mt-6">
+                            <button id="hero-learn-more"
+                                class="text-primary font-semibold hover:text-indigo-600 flex items-center">
+                                Aprender sobre imposición de documentos <span aria-hidden="true"
+                                    class="ml-1">&rarr;</span>
+                            </button>
+                        </div>
                     </div>
                 </div>
 
@@ -204,11 +212,7 @@
                         <div class="inline-flex items-center justify-center p-3 bg-emerald-100 rounded-full mb-4">
                             <svg class="h-6 w-6 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M刀8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                            </svg> <!-- Icono genérico -->
-                            <svg class="h-6 w-6 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                                    d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                             </svg>
                         </div>
                         <h3 class="text-lg font-bold text-slate-900 mb-2">Acabado Profesional</h3>
@@ -229,6 +233,84 @@
                         <p class="text-slate-500">Tu archivo nunca sale de tu dispositivo. Todo el procesamiento se
                             realiza localmente en tu navegador.</p>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal "How it works" -->
+    <div id="info-modal" class="fixed inset-0 z-50 hidden overflow-y-auto" aria-labelledby="modal-title" role="dialog"
+        aria-modal="true">
+        <!-- Background backdrop -->
+        <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+            <div id="modal-backdrop" class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"
+                aria-hidden="true"></div>
+            <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+
+            <div
+                class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+                <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                    <div class="sm:flex sm:items-start">
+                        <div
+                            class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-indigo-100 sm:mx-0 sm:h-10 sm:w-10">
+                            <svg class="h-6 w-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                        </div>
+                        <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+                            <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">
+                                Guía para la Imposición de Revistas
+                            </h3>
+                            <div class="mt-2 text-sm text-gray-500 space-y-4">
+                                <p>
+                                    <strong>¿Qué es la imposición?</strong><br>
+                                    Es el proceso de ordenar las páginas de un documento para que, al imprimirse y
+                                    doblarse, aparezcan en el orden correcto. Este software crea booklets tipo
+                                    <strong>Saddle Stitch</strong> (cuadernillo grapado).
+                                </p>
+
+                                <div class="bg-indigo-50 border-l-4 border-primary p-3">
+                                    <p class="font-bold text-indigo-700">Regla del Múltiplo de 4</p>
+                                    <p class="mt-1">
+                                        Cada hoja de papel tiene 2 caras, y en cada cara caben 2 páginas de tu revista
+                                        (izquierda y derecha).
+                                        <br><strong>2 caras x 2 páginas = 4 páginas por hoja.</strong>
+                                    </p>
+                                </div>
+
+                                <p>
+                                    <strong>¿Qué pasa si mi PDF no tiene 4, 8, 12... páginas?</strong><br>
+                                    No te preocupes. Nuestra herramienta <strong>añadirá automáticamente páginas en
+                                        blanco</strong> al final de tu documento hasta completar el siguiente múltiplo
+                                    de 4.
+                                </p>
+
+                                <ul class="list-disc pl-5 space-y-1">
+                                    <li>Si tienes 5 páginas -> Se añaden 3 en blanco (Total 8).</li>
+                                    <li>Si tienes 10 páginas -> Se añaden 2 en blanco (Total 12).</li>
+                                </ul>
+
+                                <p>
+                                    <strong>Consejos:</strong>
+                                    <br>- Diseña tus páginas individuales en tamaño A5 si vas a imprimir en A4.
+                                    <br>- Deja márgenes interiores suficientes si el documento es muy grueso.
+                                    <br>- Usa la opción de "Guías de corte" si vas a refilar el papel después de
+                                    imprimir.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                    <button id="close-modal-btn" type="button"
+                        class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-primary text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary sm:ml-3 sm:w-auto sm:text-sm">
+                        Entendido
+                    </button>
+                    <button id="cancel-modal-btn" type="button"
+                        class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
+                        Cerrar
+                    </button>
                 </div>
             </div>
         </div>
